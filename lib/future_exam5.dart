@@ -10,9 +10,11 @@ class YourExLife extends StatefulWidget {
 }
 
 class _YourExLifeState extends State<YourExLife> {
-  var rnd = Random();
+  // var rnd = Random();
   int randomnumber = 0;
   bool isLoading = false;
+  List myList = ['홍길동', '유비', '관우', '장비'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,47 +24,55 @@ class _YourExLifeState extends State<YourExLife> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              "당신의 전생은",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-              ),
-            ),
+            showText(),
             Column(
               children: [
-                if (isLoading)
-                  const CircularProgressIndicator()
-                else
-                  Text('$randomnumber'),
+                showLoading(),
               ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                showExLife();
-                showLoading();
-              },
-              child: Text("전생 알아보기"),
-            ),
+            randomButton(),
           ],
         ),
       ),
     );
   }
 
-  void showExLife() async {
+  Widget showText() {
+    return const Text(
+      "당신의 전생은",
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 30,
+      ),
+    );
+  }
+
+  Widget randomButton() {
+    return ElevatedButton(
+      onPressed: () {
+        setLoading();
+      },
+      child: const Text("전생 알아보기"),
+    );
+  }
+
+  Widget showLoading() {
+    if (isLoading)
+      return CircularProgressIndicator();
+    else
+      return Text('${myList[randomnumber]}');
+  }
+
+  Future setLoading() async {
     setState(() {
       isLoading = true;
     });
-  }
-
-  Future showLoading() async {
     await Future.delayed(const Duration(seconds: 3));
     setState(() {
       isLoading = false;
-      randomnumber = rnd.nextInt(100);
+      // randomnumber = rnd.nextInt(3);
+      randomnumber = Random().nextInt(3);
     });
   }
 }
