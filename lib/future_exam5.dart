@@ -58,10 +58,11 @@ class _YourExLifeState extends State<YourExLife> {
   }
 
   Widget showLoading() {
-    if (isLoading)
+    if (isLoading) {
       return CircularProgressIndicator();
-    else
+    } else {
       return Text('${myList[randomnumber]}');
+    }
   }
 
   Future setLoading() async {
@@ -72,7 +73,7 @@ class _YourExLifeState extends State<YourExLife> {
     setState(() {
       isLoading = false;
       // randomnumber = rnd.nextInt(3);
-      randomnumber = Random().nextInt(3);
+      randomnumber = Random().nextInt(myList.length);
     });
   }
 }
