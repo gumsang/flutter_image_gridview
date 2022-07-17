@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
 import 'data.dart';
 
 class JsonExam extends StatefulWidget {
@@ -12,7 +9,6 @@ class JsonExam extends StatefulWidget {
 }
 
 class _JsonExamState extends State<JsonExam> {
-  Map<String, dynamic>? person;
   List<Map<String, dynamic>> images = [];
   String inputText = '';
   final inputController = TextEditingController();
@@ -25,8 +21,6 @@ class _JsonExamState extends State<JsonExam> {
   }
 
   Future initData() async {
-    person = await getData();
-
     images = await getImages();
 
     // 화면 갱신
@@ -42,55 +36,45 @@ class _JsonExamState extends State<JsonExam> {
       body: Center(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
-          child: person == null
-              ? const CircularProgressIndicator()
-              : Column(
-                  children: [
-                    TextField(
-                      controller: inputController,
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        hintText: '검색어를 입력하세요',
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            if (inputController.text.isEmpty) {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const AlertDialog(
-                                    content: Text('데이터를 입력해주세요'),
-                                  );
-                                },
-                              );
-                            } else {
-                              mySearch.listInit();
-                              for (int i = 0; i < images.length; i++) {
-                                if (mySearch.checkValues(
-                                    images[i], inputController.text)) {
-                                  mySearch.addListMap(images[i]);
-                                }
-                              }
-                              setState(() {});
-                            }
+          child: Column(
+            children: [
+              TextField(
+                controller: inputController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: '검색어를 입력하세요',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      if (inputController.text.isEmpty) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AlertDialog(
+                              content: Text('데이터를 입력해주세요'),
+                            );
                           },
-                          icon: const Icon(Icons.search),
-                        ),
-                      ),
-                    ),
-                    ImageGridView(mySearch.getListMap()),
-                  ],
+                        );
+                      } else {
+                        mySearch.listInit();
+                        for (int i = 0; i < images.length; i++) {
+                          if (mySearch.checkValues(
+                              images[i], inputController.text)) {
+                            mySearch.addListMap(images[i]);
+                          }
+                        }
+                        setState(() {});
+                      }
+                    },
+                    icon: const Icon(Icons.search),
+                  ),
                 ),
+              ),
+              ImageGridView(mySearch.getListMap()),
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  Future<Map<String, dynamic>> getData() async {
-    await Future.delayed(const Duration(seconds: 1));
-
-    String jsonString = '{ "name": "홍길동", "email": "aaa@aaa.com" }';
-    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
-    return jsonMap;
   }
 
   Future<List<Map<String, dynamic>>> getImages() async {
