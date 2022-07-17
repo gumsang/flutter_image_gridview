@@ -1,8 +1,10 @@
-import 'package:exam_1/future_exam5.dart';
+import 'future_exam5.dart';
 import 'package:flutter/material.dart';
 
+import 'data.dart';
 import 'future_exam.dart';
 import 'future_exam6.dart';
+import 'json_exam.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const YourExLife(),
+      home: const JsonExam(),
     );
   }
 }
