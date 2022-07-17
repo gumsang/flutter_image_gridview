@@ -121,7 +121,10 @@ class _ImageGridViewState extends State<ImageGridView> {
         ),
         itemBuilder: (BuildContext context, int index) {
           Map<String, dynamic> image = widget.images[index];
-          return Image.network(image['previewURL']);
+          return Image.network(
+            image['previewURL'],
+            fit: BoxFit.cover,
+          );
         }, //item 의 반목문 항목 형성
       ),
     );
@@ -154,10 +157,4 @@ class SearchResult {
   listInit() {
     myList.clear();
   }
-}
-
-class MyMap {
-  final List<Map<String, dynamic>> myListMap;
-
-  MyMap(this.myListMap);
 }
