@@ -16,6 +16,7 @@ class _JsonExamState extends State<JsonExam> {
   List<Map<String, dynamic>> images = [];
   String inputText = '';
   final inputController = TextEditingController();
+  SearchResult mySearch = SearchResult();
 
   @override
   void initState() {
@@ -71,7 +72,7 @@ class _JsonExamState extends State<JsonExam> {
                         ),
                       ),
                     ),
-                    if (inputText.isNotEmpty) ImageGridView(inputText, images),
+                    if (inputText.isNotEmpty) ImageGridView(images),
                   ],
                 ),
         ),
@@ -95,29 +96,46 @@ class _JsonExamState extends State<JsonExam> {
   }
 }
 
-class ImageGridView extends StatelessWidget {
-  const ImageGridView(this.inputString, this.images, {Key? key})
-      : super(key: key);
-  final String inputString;
+class ImageGridView extends StatefulWidget {
+  const ImageGridView(this.images, {Key? key}) : super(key: key);
   final List<Map<String, dynamic>> images;
+
+  @override
+  State<ImageGridView> createState() => _ImageGridViewState();
+}
+
+class _ImageGridViewState extends State<ImageGridView> {
+  bool isExist = false;
+  String search = '';
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-        itemCount: images.length,
+      child: GridView.builder(
+        itemCount: widget.images.length, //item 개수
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
+          childAspectRatio: 1, //item 의 가로 1, 세로 2 의 비율
+        ),
         itemBuilder: (BuildContext context, int index) {
-          Map<String, dynamic> image = images[index];
-          print('GridView' + '${index}');
-          print(inputString);
-          if (image.containsValue(inputString)) {
-            return Image.network(image['previewURL']);
-          } else {
-            return Container();
-          }
-        },
+          Map<String, dynamic> image = widget.images[index];
+          return Image.network(image['previewURL']);
+        }, //item 의 반목문 항목 형성
       ),
     );
+  }
+}
+
+class SearchResult {
+  List<Map<String, dynamic>> myList = [];
+
+  SearchResult();
+  addListMap(Map<String, dynamic> images) {
+    myList.add(images);
+  }
+
+  getListMap() {
+    return myList;
   }
 }
 

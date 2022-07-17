@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class FutureExam extends StatelessWidget {
   const FutureExam({Key? key}) : super(key: key);
@@ -9,7 +7,7 @@ class FutureExam extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Future 연습'),
+        title: const Text('Future 연습'),
       ),
       body: Center(
         child: Column(
