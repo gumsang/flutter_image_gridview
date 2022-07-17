@@ -105,9 +105,15 @@ class _ImageGridViewState extends State<ImageGridView> {
         ),
         itemBuilder: (BuildContext context, int index) {
           Map<String, dynamic> image = widget.images[index];
-          return Image.network(
-            image['previewURL'],
-            fit: BoxFit.cover,
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Image.network(
+                image['previewURL'],
+                fit: BoxFit.cover,
+              ),
+            ),
           );
         }, //item 의 반목문 항목 형성
       ),
