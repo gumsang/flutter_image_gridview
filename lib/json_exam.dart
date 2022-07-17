@@ -63,6 +63,7 @@ class _JsonExamState extends State<JsonExam> {
                                 },
                               );
                             } else {
+                              mySearch.listInit();
                               for (int i = 0; i < images.length; i++) {
                                 if (mySearch.checkValues(
                                     images[i], inputController.text)) {
@@ -148,6 +149,10 @@ class SearchResult {
 
   getListMap() {
     return myList;
+  }
+
+  listInit() {
+    myList.clear();
   }
 }
 
