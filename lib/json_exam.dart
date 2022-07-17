@@ -63,16 +63,20 @@ class _JsonExamState extends State<JsonExam> {
                                 },
                               );
                             } else {
-                              setState(() {
-                                inputText = inputController.text;
-                              });
+                              for (int i = 0; i < images.length; i++) {
+                                if (mySearch.checkValues(
+                                    images[i], inputController.text)) {
+                                  mySearch.addListMap(images[i]);
+                                }
+                              }
+                              setState(() {});
                             }
                           },
                           icon: const Icon(Icons.search),
                         ),
                       ),
                     ),
-                    if (inputText.isNotEmpty) ImageGridView(images),
+                    ImageGridView(mySearch.getListMap()),
                   ],
                 ),
         ),
@@ -105,9 +109,6 @@ class ImageGridView extends StatefulWidget {
 }
 
 class _ImageGridViewState extends State<ImageGridView> {
-  bool isExist = false;
-  String search = '';
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -132,6 +133,17 @@ class SearchResult {
   SearchResult();
   addListMap(Map<String, dynamic> images) {
     myList.add(images);
+  }
+
+  bool checkValues(Map<String, dynamic> images, String input) {
+    String myTags = '';
+    myTags = images['tags'];
+
+    if (myTags.contains(input)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getListMap() {
