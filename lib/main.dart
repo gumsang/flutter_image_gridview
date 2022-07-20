@@ -1,9 +1,6 @@
-import 'future_exam5.dart';
 import 'package:flutter/material.dart';
 
 import 'data.dart';
-import 'future_exam.dart';
-import 'future_exam6.dart';
 import 'json_exam.dart';
 
 void main() {
