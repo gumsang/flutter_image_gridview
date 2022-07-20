@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'data.dart';
 
@@ -9,7 +11,7 @@ class JsonExam extends StatefulWidget {
 }
 
 class _JsonExamState extends State<JsonExam> {
-  List<Map<String, dynamic>> images = [];
+  List<Picture> images = [];
   String inputText = '';
   final inputController = TextEditingController();
   SearchResult mySearch = SearchResult();
@@ -56,10 +58,12 @@ class _JsonExamState extends State<JsonExam> {
                         );
                       } else {
                         mySearch.listInit();
+                        Picture image;
                         for (int i = 0; i < images.length; i++) {
+                          image = images[i];
                           if (mySearch.checkValues(
-                              images[i], inputController.text)) {
-                            mySearch.addListMap(images[i]);
+                              image, inputController.text)) {
+                            mySearch.addListMap(image);
                           }
                         }
                         setState(() {});
@@ -77,17 +81,33 @@ class _JsonExamState extends State<JsonExam> {
     );
   }
 
-  Future<List<Map<String, dynamic>>> getImages() async {
-    await Future.delayed(const Duration(seconds: 1));
+  Future<List<Picture>> getImages() async {
+    await Future.delayed(const Duration(seconds: 2));
 
-    List<Map<String, dynamic>> hits = data['hits'];
-    return hits;
+    String jsonString = data;
+
+    Map<String, dynamic> json = jsonDecode(jsonString);
+    Iterable hits = json['hits'];
+    return hits.map((e) => Picture.fromJson(e)).toList();
+  }
+}
+
+class Picture {
+  final String previewUrl;
+  final String tags;
+
+  Picture({required this.previewUrl, required this.tags});
+  factory Picture.fromJson(Map<String, dynamic> json) {
+    return Picture(
+      previewUrl: json['previewURL'] as String,
+      tags: json['tags'] as String,
+    );
   }
 }
 
 class ImageGridView extends StatefulWidget {
   const ImageGridView(this.images, {Key? key}) : super(key: key);
-  final List<Map<String, dynamic>> images;
+  final List<Picture> images;
 
   @override
   State<ImageGridView> createState() => _ImageGridViewState();
@@ -104,13 +124,13 @@ class _ImageGridViewState extends State<ImageGridView> {
           childAspectRatio: 1, //item 의 가로 1, 세로 2 의 비율
         ),
         itemBuilder: (BuildContext context, int index) {
-          Map<String, dynamic> image = widget.images[index];
+          Picture image = widget.images[index];
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Image.network(
-                image['previewURL'],
+                image.previewUrl,
                 fit: BoxFit.cover,
               ),
             ),
@@ -122,16 +142,16 @@ class _ImageGridViewState extends State<ImageGridView> {
 }
 
 class SearchResult {
-  List<Map<String, dynamic>> myList = [];
+  List<Picture> myList = [];
 
   SearchResult();
-  addListMap(Map<String, dynamic> images) {
-    myList.add(images);
+  addListMap(Picture image) {
+    myList.add(image);
   }
 
-  bool checkValues(Map<String, dynamic> images, String input) {
+  bool checkValues(Picture image, String input) {
     String myTags = '';
-    myTags = images['tags'];
+    myTags = image.tags;
 
     if (myTags.contains(input)) {
       return true;
