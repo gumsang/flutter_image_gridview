@@ -11,10 +11,11 @@ class JsonExam extends StatefulWidget {
 }
 
 class _JsonExamState extends State<JsonExam> {
-  // List<Picture> images = [];
+  List<Picture> images = [];
   String inputText = '';
   final inputController = TextEditingController();
   SearchResult mySearch = SearchResult();
+  bool isFirst = true;
 
   @override
   void initState() {
@@ -23,7 +24,7 @@ class _JsonExamState extends State<JsonExam> {
   }
 
   Future initData() async {
-    // images = await getImages();
+    images = await getImages();
 
     // 화면 갱신
     setState(() {});
@@ -56,16 +57,18 @@ class _JsonExamState extends State<JsonExam> {
                         },
                       );
                     } else {
-                      // mySearch.listInit();
-                      // Picture image;
-                      // for (int i = 0; i < images.length; i++) {
-                      //   image = images[i];
-                      //   if (mySearch.checkValues(
-                      //       image, inputController.text)) {
-                      //     mySearch.addListMap(image);
-                      //   }
-                      // }
-                      // setState(() {});
+                      setState(() {
+                        mySearch.listInit();
+                        Picture image;
+                        for (int i = 0; i < images.length; i++) {
+                          image = images[i];
+                          if (mySearch.checkValues(
+                              image, inputController.text)) {
+                            mySearch.addListMap(image);
+                          }
+                        }
+                        isFirst = false;
+                      });
                     }
                   },
                   icon: const Icon(Icons.search),
@@ -102,7 +105,11 @@ class _JsonExamState extends State<JsonExam> {
 
                 final images = snapshot.data!;
 
-                return ImageGridView(images);
+                if (isFirst) {
+                  return ImageGridView(images);
+                } else {
+                  return ImageGridView(mySearch.getListMap());
+                }
 
                 // if (images.isEmpty) {
                 //   return const Center(
