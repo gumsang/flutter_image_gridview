@@ -35,78 +35,83 @@ class _JsonExamState extends State<JsonExam> {
       appBar: AppBar(
         title: const Text('이미지 검색 뼈대'),
       ),
-      body: Center(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Column(
-            children: [
-              TextField(
-                controller: inputController,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: '검색어를 입력하세요',
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      if (inputController.text.isEmpty) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const AlertDialog(
-                              content: Text('데이터를 입력해주세요'),
-                            );
-                          },
-                        );
-                      } else {
-                        // mySearch.listInit();
-                        // Picture image;
-                        // for (int i = 0; i < images.length; i++) {
-                        //   image = images[i];
-                        //   if (mySearch.checkValues(
-                        //       image, inputController.text)) {
-                        //     mySearch.addListMap(image);
-                        //   }
-                        // }
-                        setState(() {});
-                      }
-                    },
-                    icon: const Icon(Icons.search),
-                  ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Column(
+          children: [
+            TextField(
+              controller: inputController,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                hintText: '검색어를 입력하세요',
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    if (inputController.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const AlertDialog(
+                            content: Text('데이터를 입력해주세요'),
+                          );
+                        },
+                      );
+                    } else {
+                      // mySearch.listInit();
+                      // Picture image;
+                      // for (int i = 0; i < images.length; i++) {
+                      //   image = images[i];
+                      //   if (mySearch.checkValues(
+                      //       image, inputController.text)) {
+                      //     mySearch.addListMap(image);
+                      //   }
+                      // }
+                      // setState(() {});
+                    }
+                  },
+                  icon: const Icon(Icons.search),
                 ),
               ),
-              FutureBuilder(
-                future: getImages(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return const Center(
-                      child: Text('에러가 발생했습니다'),
-                    );
-                  }
+            ),
+            FutureBuilder(
+              future: getImages(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text('에러가 발생했습니다'),
+                  );
+                }
 
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ],
+                    ),
+                  );
+                }
 
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: Text('데이터가 없습니다'),
-                    );
-                  }
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: Text('데이터가 없습니다'),
+                  );
+                }
 
-                  final images = snapshot.data!;
+                final images = snapshot.data!;
 
-                  return ImageGridView(images);
+                return ImageGridView(images);
 
-                  // if (images.isEmpty) {
-                  //   return const Center(
-                  //     child: Text('데이터가 0개입니다'),
-                  //   );
-                  // }
-                },
-              )
-            ],
-          ),
+                // if (images.isEmpty) {
+                //   return const Center(
+                //     child: Text('데이터가 0개입니다'),
+                //   );
+                // }
+              },
+            )
+          ],
         ),
       ),
     );
