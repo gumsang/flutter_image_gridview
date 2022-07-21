@@ -11,7 +11,7 @@ class JsonExam extends StatefulWidget {
 }
 
 class _JsonExamState extends State<JsonExam> {
-  List<Picture> images = [];
+  // List<Picture> images = [];
   String inputText = '';
   final inputController = TextEditingController();
   SearchResult mySearch = SearchResult();
@@ -23,7 +23,7 @@ class _JsonExamState extends State<JsonExam> {
   }
 
   Future initData() async {
-    images = await getImages();
+    // images = await getImages();
 
     // 화면 갱신
     setState(() {});
@@ -57,15 +57,15 @@ class _JsonExamState extends State<JsonExam> {
                           },
                         );
                       } else {
-                        mySearch.listInit();
-                        Picture image;
-                        for (int i = 0; i < images.length; i++) {
-                          image = images[i];
-                          if (mySearch.checkValues(
-                              image, inputController.text)) {
-                            mySearch.addListMap(image);
-                          }
-                        }
+                        // mySearch.listInit();
+                        // Picture image;
+                        // for (int i = 0; i < images.length; i++) {
+                        //   image = images[i];
+                        //   if (mySearch.checkValues(
+                        //       image, inputController.text)) {
+                        //     mySearch.addListMap(image);
+                        //   }
+                        // }
                         setState(() {});
                       }
                     },
@@ -73,7 +73,38 @@ class _JsonExamState extends State<JsonExam> {
                   ),
                 ),
               ),
-              ImageGridView(mySearch.getListMap()),
+              FutureBuilder(
+                future: getImages(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: Text('에러가 발생했습니다'),
+                    );
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: Text('데이터가 없습니다'),
+                    );
+                  }
+
+                  final images = snapshot.data!;
+
+                  return ImageGridView(images);
+
+                  // if (images.isEmpty) {
+                  //   return const Center(
+                  //     child: Text('데이터가 0개입니다'),
+                  //   );
+                  // }
+                },
+              )
             ],
           ),
         ),
@@ -107,7 +138,7 @@ class Picture {
 
 class ImageGridView extends StatefulWidget {
   const ImageGridView(this.images, {Key? key}) : super(key: key);
-  final List<Picture> images;
+  final images;
 
   @override
   State<ImageGridView> createState() => _ImageGridViewState();
@@ -121,7 +152,7 @@ class _ImageGridViewState extends State<ImageGridView> {
         itemCount: widget.images.length, //item 개수
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
-          childAspectRatio: 1, //item 의 가로 1, 세로 2 의 비율
+          childAspectRatio: 1 / 1, //item 의 가로 1, 세로 2 의 비율
         ),
         itemBuilder: (BuildContext context, int index) {
           Picture image = widget.images[index];
