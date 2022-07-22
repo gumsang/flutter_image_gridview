@@ -57,16 +57,15 @@ class _JsonExamState extends State<JsonExam> {
                         },
                       );
                     } else {
-                      setState(() {
-                        mySearch.listInit();
-                        Picture image;
-                        for (int i = 0; i < images.length; i++) {
-                          image = images[i];
-                          if (mySearch.checkValues(
-                              image, inputController.text)) {
-                            mySearch.addListMap(image);
-                          }
+                      mySearch.listInit();
+                      Picture image;
+                      for (int i = 0; i < images.length; i++) {
+                        image = images[i];
+                        if (mySearch.checkValues(image, inputController.text)) {
+                          mySearch.addListMap(image);
                         }
+                      }
+                      setState(() {
                         isFirst = false;
                       });
                     }
