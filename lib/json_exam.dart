@@ -56,19 +56,10 @@ class _JsonExamState extends State<JsonExam> {
                           );
                         },
                       );
-                    } else {
-                      mySearch.listInit();
-                      Picture image;
-                      for (int i = 0; i < images.length; i++) {
-                        image = images[i];
-                        if (mySearch.checkValues(image, inputController.text)) {
-                          mySearch.addListMap(image);
-                        }
-                      }
-                      setState(() {
-                        isFirst = false;
-                      });
                     }
+                    setState(() {
+                      inputText = inputController.text;
+                    });
                   },
                   icon: const Icon(Icons.search),
                 ),
@@ -104,11 +95,7 @@ class _JsonExamState extends State<JsonExam> {
 
                 final images = snapshot.data! as List<Picture>;
 
-                if (isFirst) {
-                  return ImageGridView(images);
-                } else {
-                  return ImageGridView(mySearch.getListMap());
-                }
+                return ImageGridView(images, inputText);
 
                 // if (images.isEmpty) {
                 //   return const Center(
@@ -148,8 +135,9 @@ class Picture {
 }
 
 class ImageGridView extends StatefulWidget {
-  ImageGridView(this.images, {Key? key}) : super(key: key);
+  ImageGridView(this.images, this.inputText, {Key? key}) : super(key: key);
   List<Picture> images;
+  String inputText;
 
   @override
   State<ImageGridView> createState() => _ImageGridViewState();
@@ -166,7 +154,9 @@ class _ImageGridViewState extends State<ImageGridView> {
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
         ),
-        children: widget.images.map(
+        children: widget.images
+            .where((element) => element.tags.contains(widget.inputText))
+            .map(
           (Picture image) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(20),
