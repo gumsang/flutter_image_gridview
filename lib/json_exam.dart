@@ -102,7 +102,7 @@ class _JsonExamState extends State<JsonExam> {
                   );
                 }
 
-                final images = snapshot.data!;
+                final images = snapshot.data! as List<Picture>;
 
                 if (isFirst) {
                   return ImageGridView(images);
@@ -148,8 +148,8 @@ class Picture {
 }
 
 class ImageGridView extends StatefulWidget {
-  const ImageGridView(this.images, {Key? key}) : super(key: key);
-  final images;
+  ImageGridView(this.images, {Key? key}) : super(key: key);
+  List<Picture> images;
 
   @override
   State<ImageGridView> createState() => _ImageGridViewState();
@@ -159,25 +159,24 @@ class _ImageGridViewState extends State<ImageGridView> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: GridView.builder(
-        itemCount: widget.images.length, //item 개수
+      child: GridView(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
           childAspectRatio: 1 / 1, //item 의 가로 1, 세로 2 의 비율
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
         ),
-        itemBuilder: (BuildContext context, int index) {
-          Picture image = widget.images[index];
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+        children: widget.images.map(
+          (Picture image) {
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(20),
               child: Image.network(
                 image.previewUrl,
                 fit: BoxFit.cover,
               ),
-            ),
-          );
-        }, //item 의 반목문 항목 형성
+            );
+          },
+        ).toList(),
       ),
     );
   }
