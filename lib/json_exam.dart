@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'data.dart';
 
@@ -96,12 +96,6 @@ class _JsonExamState extends State<JsonExam> {
                 final images = snapshot.data! as List<Picture>;
 
                 return ImageGridView(images, inputText);
-
-                // if (images.isEmpty) {
-                //   return const Center(
-                //     child: Text('데이터가 0개입니다'),
-                //   );
-                // }
               },
             )
           ],
@@ -111,9 +105,11 @@ class _JsonExamState extends State<JsonExam> {
   }
 
   Future<List<Picture>> getImages() async {
-    await Future.delayed(const Duration(seconds: 2));
+    Uri url = Uri.parse(
+        'https://pixabay.com/api/?key=10711147-dc41758b93b263957026bdadb&q=apple&image_type=photo');
 
-    String jsonString = data;
+    http.Response response = await http.get(url);
+    String jsonString = response.body;
 
     Map<String, dynamic> json = jsonDecode(jsonString);
     Iterable hits = json['hits'];
