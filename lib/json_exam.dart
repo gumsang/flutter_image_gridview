@@ -24,7 +24,7 @@ class _JsonExamState extends State<JsonExam> {
   }
 
   Future initData() async {
-    images = await getImages();
+    images = await getImages(inputText);
 
     // 화면 갱신
     setState(() {});
@@ -37,7 +37,7 @@ class _JsonExamState extends State<JsonExam> {
         title: const Text('이미지 검색 뼈대'),
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        // onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: [
             TextField(
@@ -56,17 +56,18 @@ class _JsonExamState extends State<JsonExam> {
                           );
                         },
                       );
+                    } else {
+                      setState(() {
+                        inputText = inputController.text;
+                      });
                     }
-                    setState(() {
-                      inputText = inputController.text;
-                    });
                   },
                   icon: const Icon(Icons.search),
                 ),
               ),
             ),
             FutureBuilder(
-              future: getImages(),
+              future: getImages(inputText),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(
@@ -104,9 +105,9 @@ class _JsonExamState extends State<JsonExam> {
     );
   }
 
-  Future<List<Picture>> getImages() async {
+  Future<List<Picture>> getImages(String inputText) async {
     Uri url = Uri.parse(
-        'https://pixabay.com/api/?key=10711147-dc41758b93b263957026bdadb&q=apple&image_type=photo');
+        'https://pixabay.com/api/?key=10711147-dc41758b93b263957026bdadb&q=$inputText&image_type=photo');
 
     http.Response response = await http.get(url);
     String jsonString = response.body;
