@@ -1,6 +1,6 @@
 import 'package:exam_1/media_search.dart';
 import 'package:flutter/material.dart';
-import 'json_exam.dart';
+import 'image_search.dart';
 
 void main() {
   runApp(const MyApp());

@@ -14,7 +14,6 @@ class _MediaSearchState extends State<MediaSearch> {
   final _mediaApi = MediaApi();
   String inputText = '';
   final inputController = TextEditingController();
-  SearchResult mySearch = SearchResult();
 
   @override
   void initState() {
@@ -116,26 +115,27 @@ class _MediaGridViewState extends State<MediaGridView> {
         child: GridView(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1, //1 개의 행에 보여줄 item 개수
-            childAspectRatio: 1.5 / 1, //item 의 가로 1, 세로 1 의 비율
-            // mainAxisSpacing: 30,
-            // crossAxisSpacing: 10,
+            childAspectRatio: 1.1 / 1, //item 의 가로 1, 세로 1 의 비율
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
           ),
           children: widget.medias
               .where((element) => element.tags.contains(widget.inputText))
               .map(
             (Media media) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MediaDetail(media.mediaUrl)));
-                },
-                child: Card(
-                  elevation: 10,
-                  child: Column(
-                    children: [
-                      Stack(
+              return Column(
+                children: [
+                  Flexible(
+                    flex: 2,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    MediaDetail(media.mediaUrl)));
+                      },
+                      child: Stack(
                         alignment: Alignment.center,
                         children: <Widget>[
                           Image.network(
@@ -148,49 +148,18 @@ class _MediaGridViewState extends State<MediaGridView> {
                           ),
                         ],
                       ),
-                      Text(
-                        media.tags,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  Flexible(
+                    flex: 1,
+                    child: ViewTitle(media),
+                  ),
+                ],
               );
             },
           ).toList(),
         ),
       ),
     );
-  }
-}
-
-class SearchResult {
-  List<Media> myList = [];
-
-  SearchResult();
-  addListMap(Media image) {
-    myList.add(image);
-  }
-
-  bool checkValues(Media image, String input) {
-    String myTags = '';
-    myTags = image.tags;
-
-    if (myTags.contains(input)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  getListMap() {
-    return myList;
-  }
-
-  listInit() {
-    myList.clear();
   }
 }
