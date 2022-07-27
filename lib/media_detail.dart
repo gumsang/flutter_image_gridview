@@ -45,9 +45,42 @@ class _MediaDetailState extends State<MediaDetail> {
           children: [
             Container(
               child: _controller.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
+                  ? Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _controller.value.isPlaying
+                                  ? _controller.pause()
+                                  : _controller.play();
+                            });
+                          },
+                          child: AspectRatio(
+                            aspectRatio: _controller.value.aspectRatio,
+                            child: VideoPlayer(_controller),
+                          ),
+                        ),
+                        Container(
+                          width: 85,
+                          height: 85,
+                          child: _controller.value.isPlaying
+                              ? const SizedBox()
+                              : IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _controller.value.isPlaying
+                                          ? _controller.pause()
+                                          : _controller.play();
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.play_circle,
+                                    size: 80,
+                                  ),
+                                ),
+                        ),
+                      ],
                     )
                   : const SizedBox(
                       width: 200,
