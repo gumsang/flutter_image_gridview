@@ -31,6 +31,10 @@ class _MediaDetailState extends State<MediaDetail> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Video',
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.grey[800],
+      ),
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey[800],
