@@ -81,10 +81,11 @@ class _IncreaseCounterTime extends State<IncreaseCounterTime> {
   }
 
   Widget showLoading() {
-    if (isLoading)
+    if (isLoading) {
       return CircularProgressIndicator();
-    else
+    } else {
       return Text('$increase초 지났습니다');
+    }
   }
 
   Widget showSeconds() {

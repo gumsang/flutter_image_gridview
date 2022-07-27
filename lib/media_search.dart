@@ -1,16 +1,17 @@
-import 'package:exam_1/API/picture_api.dart';
-import 'package:exam_1/model/picture.dart';
+import 'package:exam_1/API/media_api.dart';
+import 'package:exam_1/media_detail.dart';
+import 'package:exam_1/model/media.dart';
 import 'package:flutter/material.dart';
 
-class JsonExam extends StatefulWidget {
-  const JsonExam({Key? key}) : super(key: key);
+class MediaSearch extends StatefulWidget {
+  const MediaSearch({Key? key}) : super(key: key);
 
   @override
-  State<JsonExam> createState() => _JsonExamState();
+  State<MediaSearch> createState() => _MediaSearchState();
 }
 
-class _JsonExamState extends State<JsonExam> {
-  final _pictureApi = PictureApi();
+class _MediaSearchState extends State<MediaSearch> {
+  final _mediaApi = MediaApi();
   String inputText = '';
   final inputController = TextEditingController();
   SearchResult mySearch = SearchResult();
@@ -30,39 +31,7 @@ class _JsonExamState extends State<JsonExam> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('이미지 검색'),
-      ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Drawer Header'),
-            ),
-            ListTile(
-              title: const Text('이미지 검색'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('동영상 검색'),
-              onTap: () {
-                Navigator.pushNamed(context, '/media');
-              },
-            ),
-          ],
-        ),
+        title: const Text('동영상 검색'),
       ),
       body: GestureDetector(
         // onTap: () => FocusScope.of(context).unfocus(),
@@ -95,7 +64,7 @@ class _JsonExamState extends State<JsonExam> {
               ),
             ),
             FutureBuilder(
-              future: _pictureApi.getImages(inputText),
+              future: _mediaApi.getMedias(inputText),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(
@@ -122,9 +91,9 @@ class _JsonExamState extends State<JsonExam> {
                   );
                 }
 
-                final images = snapshot.data! as List<Picture>;
+                final medias = snapshot.data! as List<Media>;
 
-                return ImageGridView(images, inputText);
+                return MediaGridView(medias, inputText);
               },
             )
           ],
@@ -134,16 +103,16 @@ class _JsonExamState extends State<JsonExam> {
   }
 }
 
-class ImageGridView extends StatefulWidget {
-  ImageGridView(this.images, this.inputText, {Key? key}) : super(key: key);
-  List<Picture> images;
+class MediaGridView extends StatefulWidget {
+  MediaGridView(this.medias, this.inputText, {Key? key}) : super(key: key);
+  List<Media> medias;
   String inputText;
 
   @override
-  State<ImageGridView> createState() => _ImageGridViewState();
+  State<MediaGridView> createState() => _MediaGridViewState();
 }
 
-class _ImageGridViewState extends State<ImageGridView> {
+class _MediaGridViewState extends State<MediaGridView> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -154,15 +123,23 @@ class _ImageGridViewState extends State<ImageGridView> {
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
         ),
-        children: widget.images
+        children: widget.medias
             .where((element) => element.tags.contains(widget.inputText))
             .map(
-          (Picture image) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                image.previewUrl,
-                fit: BoxFit.cover,
+          (Media media) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MediaDetail(media.mediaUrl)));
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  "https://i.vimeocdn.com/video/${media.pictureId}_${media.thumbnailSize}.jpg",
+                  fit: BoxFit.cover,
+                ),
               ),
             );
           },
@@ -173,14 +150,14 @@ class _ImageGridViewState extends State<ImageGridView> {
 }
 
 class SearchResult {
-  List<Picture> myList = [];
+  List<Media> myList = [];
 
   SearchResult();
-  addListMap(Picture image) {
+  addListMap(Media image) {
     myList.add(image);
   }
 
-  bool checkValues(Picture image, String input) {
+  bool checkValues(Media image, String input) {
     String myTags = '';
     myTags = image.tags;
 
