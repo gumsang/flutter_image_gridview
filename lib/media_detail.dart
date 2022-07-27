@@ -1,10 +1,12 @@
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 
-class MediaDetail extends StatefulWidget {
-  const MediaDetail(this.url, {Key? key}) : super(key: key);
+import 'model/media.dart';
 
-  final String url;
+class MediaDetail extends StatefulWidget {
+  const MediaDetail(this.media, {Key? key}) : super(key: key);
+
+  final Media media;
 
   @override
   _MediaDetailState createState() => _MediaDetailState();
@@ -12,13 +14,11 @@ class MediaDetail extends StatefulWidget {
 
 class _MediaDetailState extends State<MediaDetail> {
   late VideoPlayerController _controller;
-  List<String> replaceUrl = [];
 
   @override
   void initState() {
     super.initState();
-    replaceUrl = widget.url.split('https');
-    _controller = VideoPlayerController.network(widget.url)
+    _controller = VideoPlayerController.network(widget.media.mediaUrl)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         _controller.play();

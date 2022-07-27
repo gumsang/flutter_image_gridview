@@ -132,8 +132,7 @@ class _MediaGridViewState extends State<MediaGridView> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    MediaDetail(media.mediaUrl)));
+                                builder: (context) => MediaDetail(media)));
                       },
                       child: Stack(
                         alignment: Alignment.center,
