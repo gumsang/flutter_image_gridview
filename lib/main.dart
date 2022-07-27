@@ -12,6 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.grey[800],
+      ),
       routes: {
         '/': (context) => const ImageSearch(), //이미지검색
         '/media': (context) => const MediaSearch(), //동영상검색

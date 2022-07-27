@@ -33,6 +33,7 @@ class _MediaDetailState extends State<MediaDetail> {
       title: 'Video',
       home: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.grey[800],
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);

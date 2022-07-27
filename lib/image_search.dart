@@ -32,12 +32,30 @@ class _ImageSearchState extends State<ImageSearch> {
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              currentAccountPicture: const CircleAvatar(
+                // 현재 계정 이미지 set
+                backgroundImage: NetworkImage(
+                  "https://lh3.googleusercontent.com/SCBatcq0DMP0UfFl437h8IU6RzXVgCxnPJWgZgargILJ44cRfA13P1_LQPv_bkx0CQRRFGdf1ZwPnXpDohRj-NAPKVogAxOizxcPaIJhteSY4DY=s0",
+                ),
+                // backgroundColor: Colors.white,
               ),
-              child: Text('Drawer Header'),
+              // otherAccountsPictures: const <Widget>[
+              //   // 다른 계정 이미지[] set
+              //   CircleAvatar(
+              //     // backgroundColor: Colors.white,
+              //     backgroundImage: NetworkImage(
+              //         "https://lh3.googleusercontent.com/AKdZBBvJ1loAVmWD1RpXfh1hoKlBPTznBAMH8bH4ebMcMG-qExehI5uyVVgUP61ajiszyGHQ16O2c1lPq2XKJj6Waz1FxDy7c-y4s9n824pj5vs=s0"),
+              //   ),
+              // ],
+              accountName: const Text('EUNSANG'),
+              accountEmail: const Text('EUNSANG@email.com'),
+              decoration: BoxDecoration(
+                  color: Colors.grey[700],
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(40.0),
+                      bottomRight: Radius.circular(40.0))),
             ),
             ListTile(
               title: const Text('이미지 검색'),
