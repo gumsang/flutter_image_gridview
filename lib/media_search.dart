@@ -15,16 +15,10 @@ class _MediaSearchState extends State<MediaSearch> {
   String inputText = '';
   final inputController = TextEditingController();
   SearchResult mySearch = SearchResult();
-  bool isFirst = true;
 
   @override
   void initState() {
     super.initState();
-    initData();
-  }
-
-  Future initData() async {
-    setState(() {});
   }
 
   @override
@@ -32,9 +26,10 @@ class _MediaSearchState extends State<MediaSearch> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('동영상 검색'),
+        backgroundColor: Colors.grey[800],
       ),
       body: GestureDetector(
-        // onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: [
             TextField(

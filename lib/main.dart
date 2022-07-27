@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/': (context) => const JsonExam(), //이미지검색
+        '/': (context) => const ImageSearch(), //이미지검색
         '/media': (context) => const MediaSearch(), //동영상검색
       },
       initialRoute: '/',

@@ -2,28 +2,21 @@ import 'package:exam_1/API/picture_api.dart';
 import 'package:exam_1/model/picture.dart';
 import 'package:flutter/material.dart';
 
-class JsonExam extends StatefulWidget {
-  const JsonExam({Key? key}) : super(key: key);
+class ImageSearch extends StatefulWidget {
+  const ImageSearch({Key? key}) : super(key: key);
 
   @override
-  State<JsonExam> createState() => _JsonExamState();
+  State<ImageSearch> createState() => _ImageSearchState();
 }
 
-class _JsonExamState extends State<JsonExam> {
+class _ImageSearchState extends State<ImageSearch> {
   final _pictureApi = PictureApi();
   String inputText = '';
   final inputController = TextEditingController();
-  SearchResult mySearch = SearchResult();
-  bool isFirst = true;
 
   @override
   void initState() {
     super.initState();
-    initData();
-  }
-
-  Future initData() async {
-    setState(() {});
   }
 
   @override
@@ -169,33 +162,5 @@ class _ImageGridViewState extends State<ImageGridView> {
         ).toList(),
       ),
     );
-  }
-}
-
-class SearchResult {
-  List<Picture> myList = [];
-
-  SearchResult();
-  addListMap(Picture image) {
-    myList.add(image);
-  }
-
-  bool checkValues(Picture image, String input) {
-    String myTags = '';
-    myTags = image.tags;
-
-    if (myTags.contains(input)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  getListMap() {
-    return myList;
-  }
-
-  listInit() {
-    myList.clear();
   }
 }

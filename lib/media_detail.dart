@@ -21,8 +21,10 @@ class _MediaDetailState extends State<MediaDetail> {
     _controller = VideoPlayerController.network(widget.url)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        _controller.play();
         setState(() {});
       });
+    _controller.setLooping(true);
   }
 
   @override
@@ -36,8 +38,6 @@ class _MediaDetailState extends State<MediaDetail> {
             IconButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  print(widget.url);
-                  print("http" + replaceUrl[1]);
                 },
                 icon: const Icon(Icons.arrow_back_ios))
           ],
