@@ -1,7 +1,7 @@
 class Media {
   final String tags;
   final String pictureId; //썸네일
-  final String thumbnailSize = '295x166';
+  final String thumbnailSize = '960x540';
   final String mediaUrl;
 
   Media({required this.tags, required this.pictureId, required this.mediaUrl});
