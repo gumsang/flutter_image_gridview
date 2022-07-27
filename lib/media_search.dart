@@ -116,34 +116,57 @@ class _MediaGridViewState extends State<MediaGridView> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
-          childAspectRatio: 1 / 1, //item 의 가로 1, 세로 2 의 비율
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        children: widget.medias
-            .where((element) => element.tags.contains(widget.inputText))
-            .map(
-          (Media media) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MediaDetail(media.mediaUrl)));
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  "https://i.vimeocdn.com/video/${media.pictureId}_${media.thumbnailSize}.jpg",
-                  fit: BoxFit.cover,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 1, //1 개의 행에 보여줄 item 개수
+            childAspectRatio: 1.5 / 1, //item 의 가로 1, 세로 1 의 비율
+            // mainAxisSpacing: 30,
+            // crossAxisSpacing: 10,
+          ),
+          children: widget.medias
+              .where((element) => element.tags.contains(widget.inputText))
+              .map(
+            (Media media) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MediaDetail(media.mediaUrl)));
+                },
+                child: Card(
+                  elevation: 10,
+                  child: Column(
+                    children: [
+                      Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          Image.network(
+                            "https://i.vimeocdn.com/video/${media.pictureId}_${media.thumbnailSize}.jpg",
+                            fit: BoxFit.cover,
+                          ),
+                          const Icon(
+                            Icons.play_circle,
+                            size: 80,
+                          ),
+                        ],
+                      ),
+                      Text(
+                        media.tags,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-        ).toList(),
+              );
+            },
+          ).toList(),
+        ),
       ),
     );
   }
