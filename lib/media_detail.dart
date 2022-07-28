@@ -46,56 +46,60 @@ class _MediaDetailState extends State<MediaDetail> {
           ),
           title: const Text("동영상 재생"),
         ),
-        body: Column(
+        body: ListView(
           children: [
-            Container(
-              child: _controller.value.isInitialized
-                  ? Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _controller.value.isPlaying
-                                  ? _controller.pause()
-                                  : _controller.play();
-                            });
-                          },
-                          child: AspectRatio(
-                            aspectRatio: _controller.value.aspectRatio,
-                            child: VideoPlayer(_controller),
-                          ),
+            Column(
+              children: [
+                Container(
+                  child: _controller.value.isInitialized
+                      ? Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _controller.value.isPlaying
+                                      ? _controller.pause()
+                                      : _controller.play();
+                                });
+                              },
+                              child: AspectRatio(
+                                aspectRatio: _controller.value.aspectRatio,
+                                child: VideoPlayer(_controller),
+                              ),
+                            ),
+                            Container(
+                              width: 85,
+                              height: 85,
+                              child: _controller.value.isPlaying
+                                  ? const SizedBox()
+                                  : IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _controller.value.isPlaying
+                                              ? _controller.pause()
+                                              : _controller.play();
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.play_circle,
+                                        size: 80,
+                                      ),
+                                    ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox(
+                          width: 200,
+                          height: 200,
+                          child: CircularProgressIndicator(),
                         ),
-                        Container(
-                          width: 85,
-                          height: 85,
-                          child: _controller.value.isPlaying
-                              ? const SizedBox()
-                              : IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _controller.value.isPlaying
-                                          ? _controller.pause()
-                                          : _controller.play();
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    Icons.play_circle,
-                                    size: 80,
-                                  ),
-                                ),
-                        ),
-                      ],
-                    )
-                  : const SizedBox(
-                      width: 200,
-                      height: 200,
-                      child: CircularProgressIndicator(),
-                    ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ViewDetails(widget.media),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ViewDetails(widget.media),
+                ),
+              ],
             ),
           ],
         ),
