@@ -24,6 +24,7 @@ class _ImageSearchState extends State<ImageSearch> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('이미지 검색'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
@@ -33,8 +34,8 @@ class _ImageSearchState extends State<ImageSearch> {
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
-            UserAccountsDrawerHeader(
-              currentAccountPicture: const CircleAvatar(
+            const UserAccountsDrawerHeader(
+              currentAccountPicture: CircleAvatar(
                 // 현재 계정 이미지 set
                 backgroundImage: NetworkImage(
                   "https://lh3.googleusercontent.com/SCBatcq0DMP0UfFl437h8IU6RzXVgCxnPJWgZgargILJ44cRfA13P1_LQPv_bkx0CQRRFGdf1ZwPnXpDohRj-NAPKVogAxOizxcPaIJhteSY4DY=s0",
@@ -49,11 +50,10 @@ class _ImageSearchState extends State<ImageSearch> {
               //         "https://lh3.googleusercontent.com/AKdZBBvJ1loAVmWD1RpXfh1hoKlBPTznBAMH8bH4ebMcMG-qExehI5uyVVgUP61ajiszyGHQ16O2c1lPq2XKJj6Waz1FxDy7c-y4s9n824pj5vs=s0"),
               //   ),
               // ],
-              accountName: const Text('EUNSANG'),
-              accountEmail: const Text('EUNSANG@email.com'),
+              accountName: Text('EUNSANG'),
+              accountEmail: Text('EUNSANG@email.com'),
               decoration: BoxDecoration(
-                  color: Colors.grey[700],
-                  borderRadius: const BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(40.0),
                       bottomRight: Radius.circular(40.0))),
             ),
@@ -157,10 +157,12 @@ class ImageGridView extends StatefulWidget {
 class _ImageGridViewState extends State<ImageGridView> {
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
     return Expanded(
       child: GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount:
+              orientation == Orientation.portrait ? 2 : 4, //1 개의 행에 보여줄 item 개수
           childAspectRatio: 1 / 1, //item 의 가로 1, 세로 2 의 비율
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,

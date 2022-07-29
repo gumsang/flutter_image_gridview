@@ -1,5 +1,6 @@
 import 'package:exam_1/media_search.dart';
 import 'package:flutter/material.dart';
+import 'color_schemes.g.dart';
 import 'image_search.dart';
 
 void main() {
@@ -13,8 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.grey[800],
+        useMaterial3: true,
+        colorScheme: lightColorScheme,
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: darkColorScheme,
       ),
       routes: {
         '/': (context) => const ImageSearch(), //이미지검색

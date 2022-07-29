@@ -25,7 +25,6 @@ class _MediaSearchState extends State<MediaSearch> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('동영상 검색'),
-        backgroundColor: Colors.grey[800],
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
