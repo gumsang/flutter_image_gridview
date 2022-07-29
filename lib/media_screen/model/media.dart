@@ -32,9 +32,9 @@ class Media {
 }
 
 class ViewTitle extends StatelessWidget {
-  Media _media;
+  final Media _media;
 
-  ViewTitle(this._media, {Key? key}) : super(key: key);
+  const ViewTitle(this._media, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

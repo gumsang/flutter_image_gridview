@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'color_schemes.g.dart';
+import 'image_screen/image_search.dart';
 import 'main_screen/main_screen.dart';
 import 'media_screen/media_search.dart';
-import 'picture_screen/image_search.dart';
 
 void main() {
   runApp(const MyApp());

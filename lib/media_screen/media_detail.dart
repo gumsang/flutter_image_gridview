@@ -9,7 +9,7 @@ class MediaDetail extends StatefulWidget {
   final Media media;
 
   @override
-  _MediaDetailState createState() => _MediaDetailState();
+  State<MediaDetail> createState() => _MediaDetailState();
 }
 
 class _MediaDetailState extends State<MediaDetail> {
@@ -68,7 +68,7 @@ class _MediaDetailState extends State<MediaDetail> {
                                 child: VideoPlayer(_controller),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               width: 85,
                               height: 85,
                               child: _controller.value.isPlaying
@@ -157,7 +157,7 @@ class ViewDetails extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Icon(Icons.remove_red_eye_outlined),
+                  const Icon(Icons.remove_red_eye_outlined),
                   Text("View ${media.views.toString()}"),
                 ],
               ),

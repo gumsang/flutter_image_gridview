@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:exam_1/model/media.dart';
+
+import '../model/media.dart';
 
 class MediaApi {
   Future<List<Media>> getMedias(String inputText) async {

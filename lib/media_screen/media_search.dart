@@ -98,9 +98,10 @@ class _MediaSearchState extends State<MediaSearch> {
 }
 
 class MediaGridView extends StatefulWidget {
-  MediaGridView(this.medias, this.inputText, {Key? key}) : super(key: key);
-  List<Media> medias;
-  String inputText;
+  const MediaGridView(this.medias, this.inputText, {Key? key})
+      : super(key: key);
+  final List<Media> medias;
+  final String inputText;
 
   @override
   State<MediaGridView> createState() => _MediaGridViewState();
