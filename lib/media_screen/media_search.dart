@@ -1,7 +1,8 @@
-import 'package:exam_1/API/media_api.dart';
-import 'package:exam_1/media_detail.dart';
-import 'package:exam_1/model/media.dart';
 import 'package:flutter/material.dart';
+
+import 'api/media_api.dart';
+import 'media_detail.dart';
+import 'model/media.dart';
 
 class MediaSearch extends StatefulWidget {
   const MediaSearch({Key? key}) : super(key: key);

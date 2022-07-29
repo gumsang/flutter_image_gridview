@@ -1,6 +1,7 @@
-import 'package:exam_1/API/picture_api.dart';
-import 'package:exam_1/model/picture.dart';
 import 'package:flutter/material.dart';
+
+import 'api/picture_api.dart';
+import 'model/picture.dart';
 
 class ImageSearch extends StatefulWidget {
   const ImageSearch({Key? key}) : super(key: key);

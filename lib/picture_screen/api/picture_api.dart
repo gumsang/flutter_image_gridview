@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:exam_1/model/picture.dart';
+import '../model/picture.dart';
 
 class PictureApi {
   Future<List<Picture>> getImages(String inputText) async {
