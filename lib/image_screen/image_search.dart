@@ -28,7 +28,7 @@ class _ImageSearchState extends State<ImageSearch> {
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: GestureDetector(
-        // onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: [
             TextField(

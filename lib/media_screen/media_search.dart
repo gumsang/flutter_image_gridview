@@ -67,15 +67,13 @@ class _MediaSearchState extends State<MediaSearch> {
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
-                    ),
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ],
                   );
                 }
 
@@ -124,37 +122,31 @@ class _MediaGridViewState extends State<MediaGridView> {
               .where((element) => element.tags.contains(widget.inputText))
               .map(
             (Media media) {
-              return Column(
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MediaDetail(media)));
-                      },
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          Image.network(
-                            "https://i.vimeocdn.com/video/${media.pictureId}_${media.thumbnailSize}.jpg",
-                            fit: BoxFit.cover,
-                          ),
-                          const Icon(
-                            Icons.play_circle,
-                            size: 80,
-                          ),
-                        ],
-                      ),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MediaDetail(media)));
+                },
+                child: Column(
+                  children: [
+                    Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Image.network(
+                          "https://i.vimeocdn.com/video/${media.pictureId}_${media.thumbnailSize}.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                        const Icon(
+                          Icons.play_circle,
+                          size: 80,
+                        ),
+                      ],
                     ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: ViewTitle(media),
-                  ),
-                ],
+                    ViewTitle(media),
+                  ],
+                ),
               );
             },
           ).toList(),
