@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MainScreen(), //이미지검색
         '/media': (context) => const MediaSearch(), //동영상검색
-        '/image': (context) => const ImageSearch(), //이미지검색
+        '/image': (context) => ImageSearch(), //이미지검색
       },
       initialRoute: '/',
     );

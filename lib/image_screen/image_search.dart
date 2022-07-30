@@ -1,10 +1,10 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-
 import 'api/picture_api.dart';
 import 'model/picture.dart';
 
 class ImageSearch extends StatefulWidget {
-  const ImageSearch({Key? key}) : super(key: key);
+  ImageSearch({Key? key}) : super(key: key);
 
   @override
   State<ImageSearch> createState() => _ImageSearchState();
@@ -16,8 +16,8 @@ class _ImageSearchState extends State<ImageSearch> {
   final inputController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -48,17 +48,16 @@ class _ImageSearchState extends State<ImageSearch> {
                         },
                       );
                     } else {
-                      setState(() {
-                        inputText = inputController.text;
-                      });
+                      _pictureApi.fetchImages(inputController.text);
                     }
                   },
                   icon: const Icon(Icons.search),
                 ),
               ),
             ),
-            FutureBuilder(
-              future: _pictureApi.getImages(inputText),
+            StreamBuilder(
+              initialData: [],
+              stream: _pictureApi.imeagesStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(
@@ -85,11 +84,9 @@ class _ImageSearchState extends State<ImageSearch> {
                   );
                 }
 
-                final images = snapshot.data! as List<Picture>;
-
-                return ImageGridView(images, inputText);
+                return ImageGridView(_pictureApi.imageList, inputText);
               },
-            )
+            ),
           ],
         ),
       ),
