@@ -13,7 +13,6 @@ class MediaSearch extends StatefulWidget {
 
 class _MediaSearchState extends State<MediaSearch> {
   final _mediaApi = MediaApi();
-  String inputText = '';
   final inputController = TextEditingController();
 
   @override
@@ -47,10 +46,6 @@ class _MediaSearchState extends State<MediaSearch> {
                           );
                         },
                       );
-                    } else {
-                      setState(() {
-                        inputText = inputController.text;
-                      });
                     }
                   },
                   icon: const Icon(Icons.search),
@@ -58,7 +53,7 @@ class _MediaSearchState extends State<MediaSearch> {
               ),
             ),
             FutureBuilder(
-              future: _mediaApi.getMedias(inputText),
+              future: _mediaApi.getMedias(inputController.text),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(
@@ -85,7 +80,7 @@ class _MediaSearchState extends State<MediaSearch> {
 
                 final medias = snapshot.data! as List<Media>;
 
-                return MediaGridView(medias, inputText);
+                return MediaGridView(medias, inputController.text);
               },
             )
           ],

@@ -12,8 +12,13 @@ class ImageSearch extends StatefulWidget {
 
 class _ImageSearchState extends State<ImageSearch> {
   final _pictureApi = PictureApi();
-  String inputText = '';
   final inputController = TextEditingController();
+
+  @override
+  void initState() {
+    _pictureApi.fetchImages(inputController.text);
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -56,7 +61,7 @@ class _ImageSearchState extends State<ImageSearch> {
               ),
             ),
             StreamBuilder(
-              initialData: [],
+              initialData: _pictureApi.imageList,
               stream: _pictureApi.imeagesStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -84,7 +89,8 @@ class _ImageSearchState extends State<ImageSearch> {
                   );
                 }
 
-                return ImageGridView(_pictureApi.imageList, inputText);
+                return ImageGridView(
+                    _pictureApi.imageList, inputController.text);
               },
             ),
           ],
