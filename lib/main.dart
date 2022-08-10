@@ -1,8 +1,8 @@
+import 'package:exam_1/root_screen.dart';
 import 'package:flutter/material.dart';
 import 'color_schemes.g.dart';
-import 'image_screen/image_search.dart';
-import 'main_screen/main_screen.dart';
-import 'media_screen/media_search.dart';
+import 'image_screen/model/image_search_view_model.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,12 +22,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: darkColorScheme,
       ),
-      routes: {
-        '/': (context) => const MainScreen(), //이미지검색
-        '/media': (context) => const MediaSearch(), //동영상검색
-        '/image': (context) => ImageSearch(), //이미지검색
-      },
-      initialRoute: '/',
+      home: ChangeNotifierProvider(
+        create: (_) => ImageSearchViewModel(),
+        child: const RootScreen(),
+      ),
     );
   }
 }

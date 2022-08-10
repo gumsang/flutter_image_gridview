@@ -1,6 +1,6 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'api/picture_api.dart';
+import 'package:provider/provider.dart';
+import 'model/image_search_view_model.dart';
 import 'model/picture.dart';
 
 class ImageSearch extends StatefulWidget {
@@ -11,22 +11,17 @@ class ImageSearch extends StatefulWidget {
 }
 
 class _ImageSearchState extends State<ImageSearch> {
-  final _pictureApi = PictureApi();
   final inputController = TextEditingController();
 
   @override
-  void initState() {
-    _pictureApi.fetchImages(inputController.text);
-    super.initState();
-  }
-
-  @override
   void dispose() {
+    inputController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<ImageSearchViewModel>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('이미지 검색'),
@@ -53,46 +48,48 @@ class _ImageSearchState extends State<ImageSearch> {
                         },
                       );
                     } else {
-                      _pictureApi.fetchImages(inputController.text);
+                      viewModel.fetchImages(inputController.text);
+                      // ImageGridView(viewModel.imageList, inputController.text);
                     }
                   },
                   icon: const Icon(Icons.search),
                 ),
               ),
             ),
-            StreamBuilder(
-              initialData: _pictureApi.imageList,
-              stream: _pictureApi.imeagesStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return const Center(
-                    child: Text('에러가 발생했습니다'),
-                  );
-                }
+            ImageGridView(viewModel.imageList, inputController.text),
+            // StreamBuilder(
+            //   initialData: _pictureApi.imageList,
+            //   stream: _pictureApi.imeagesStream,
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasError) {
+            //       return const Center(
+            //         child: Text('에러가 발생했습니다'),
+            //       );
+            //     }
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
-                    ),
-                  );
-                }
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return Expanded(
+            //         child: Column(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: const [
+            //             Center(
+            //               child: CircularProgressIndicator(),
+            //             ),
+            //           ],
+            //         ),
+            //       );
+            //     }
 
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: Text('데이터가 없습니다'),
-                  );
-                }
+            //     if (!snapshot.hasData) {
+            //       return const Center(
+            //         child: Text('데이터가 없습니다'),
+            //       );
+            //     }
 
-                return ImageGridView(
-                    _pictureApi.imageList, inputController.text);
-              },
-            ),
+            //     return ImageGridView(
+            //         _pictureApi.imageList, inputController.text);
+            //   },
+            // ),
           ],
         ),
       ),
