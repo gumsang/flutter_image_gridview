@@ -4,7 +4,7 @@ import 'model/image_search_view_model.dart';
 import 'model/picture.dart';
 
 class ImageSearch extends StatefulWidget {
-  ImageSearch({Key? key}) : super(key: key);
+  const ImageSearch({Key? key}) : super(key: key);
 
   @override
   State<ImageSearch> createState() => _ImageSearchState();
